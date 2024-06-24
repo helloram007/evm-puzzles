@@ -135,6 +135,30 @@ Puzzle solved!
 Run it in evm.codes: https://www.evm.codes/playground?callValue=16&unit=Wei&callData=&codeType=Bytecode&code=%2734800261010014600C57FDFD5B00FDFD%27_
 ### Solution:
 In this Instruction set, pass a value 16 (CALLVALUE), it then duplicates the value in the stack , so now stack contains 16 and 16. multiply(MUL) and then 0x100 is pushed into the stack, which then executes EQ.if it is successful, then executes PUSH1 0c, which is later used by JUMPI to jump to JUMPDEST.
+############
+# Puzzle 6 #
+############
 
+00      6000      PUSH1 00
+02      35        CALLDATALOAD
+03      56        JUMP
+04      FD        REVERT
+05      FD        REVERT
+06      FD        REVERT
+07      FD        REVERT
+08      FD        REVERT
+09      FD        REVERT
+0A      5B        JUMPDEST
+0B      00        STOP
+
+? Enter the calldata: 0x000000000000000000000000000000000000000000000000000000000000000A
+
+Puzzle solved!
+
+Run it in evm.codes: https://www.evm.codes/playground?callValue=0&unit=Wei&callData=0x000000000000000000000000000000000000000000000000000000000000000A&codeType=Bytecode&code=%2760003556FDFDFDFDFDFD5B00%27_
+
+### Solution:
+CALLDATALOAD needs to enter as 0xA but in full 32 bytes(0x000000000000000000000000000000000000000000000000000000000000000A).
+So it is loaded as "a" in the stack and jump takes it and moves to the location.
 
 
