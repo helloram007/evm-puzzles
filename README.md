@@ -15,3 +15,9 @@ And the game will start.
 In some puzzles you only need to provide the value that will be sent to the contract, in others the calldata, and in others both values.
 
 You can use [`evm.codes`](https://www.evm.codes/)'s reference and playground to work through this.
+
+# Solutions
+
+## Puzzle - 1
+Solution: CALLVALUE is the amount of Wei we send in.
+So in the stack the first opcode is CALLVALUE. next OPCODE is JUMP, JUMP takes a value to JUMPDEST, so the JUMPDEST is at location 8. so CALLVALUE takes 8 and stores in stack, JUMP reads from stack the location it has to jump, it is 8.
