@@ -111,5 +111,30 @@ i do the below math
 0xC ^ 0xA = 6.
 so reversing this with 0xC ^ 6 will be equal to 0xA, which is the JUMPDEST.
 
+############
+# Puzzle 5 #
+############
+00      34          CALLVALUE
+01      80          DUP1
+02      02          MUL
+03      610100      PUSH2 0100
+06      14          EQ
+07      600C        PUSH1 0C
+09      57          JUMPI
+0A      FD          REVERT
+0B      FD          REVERT
+0C      5B          JUMPDEST
+0D      00          STOP
+0E      FD          REVERT
+0F      FD          REVERT
+
+? Enter the value to send: 16
+
+Puzzle solved!
+
+Run it in evm.codes: https://www.evm.codes/playground?callValue=16&unit=Wei&callData=&codeType=Bytecode&code=%2734800261010014600C57FDFD5B00FDFD%27_
+### Solution:
+In this Instruction set, pass a value 16 (CALLVALUE), it then duplicates the value in the stack , so now stack contains 16 and 16. multiply(MUL) and then 0x100 is pushed into the stack, which then executes EQ.if it is successful, then executes PUSH1 0c, which is later used by JUMPI to jump to JUMPDEST.
+
 
 
