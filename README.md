@@ -265,3 +265,39 @@ answer: 0x60fd60005360016000f3
 Puzzle solved!
 
 Run it in evm.codes: https://www.evm.codes/playground?callValue=1&unit=Wei&callData=0xFFFFFFFFFFFFFFFF&codeType=Bytecode&code=%2736600310600957FDFD5B343602600814601457FD5B00%27_
+
+#############
+# Puzzle 10 #
+#############
+
+00      38          CODESIZE  --> 1b (21)
+01      34          CALLVALUE --> f
+02      90          SWAP1     --> this swaps values in the stack 
+03      11          GT        --> 1b > f, now the stack has only one val, 1
+04      6008        PUSH1 08  -->  this pushes 8 into the stack
+06      57          JUMPI     --> the pc counter adds both the values and ret 9
+07      FD          REVERT    --> xxxxx
+08      5B          JUMPDEST  --> the pointer in now at this place
+09      36          CALLDATASIZE -> 6 pushes into the stack
+0A      610003      PUSH2 0003   --> this pushes 3 into the stack
+0D      90          SWAP1        --> this swaps values in the stack
+0E      06          MOD          --> 6/3 remainder is 0, now stack has 0 only
+0F      15          ISZERO       --> since 0 is the only value,returns 1
+10      34          CALLVALUE    --> 15
+11      600A        PUSH1 0A     --> this pushes f into the stack
+13      01          ADD          --> 15 + 10 = 25 + 1 = 26
+14      57          JUMPI        --> jumps to 26, which is 19
+15      FD          REVERT
+16      FD          REVERT
+17      FD          REVERT
+18      FD          REVERT
+19      5B          JUMPDEST
+1A      00          STOP
+
+? Enter the value to send: 15
+? Enter the calldata: 0xFFFFFFFFFFFF
+
+Puzzle solved!
+
+Run it in evm.codes: https://www.evm.codes/playground?callValue=15&unit=Wei&callData=0xFFFFFFFFFFFF&codeType=Bytecode&code=%2738349011600857FD5B3661000390061534600A0157FDFDFDFD5B00%27_
+
