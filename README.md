@@ -191,3 +191,43 @@ Run it in evm.codes: https://www.evm.codes/playground?callValue=0&unit=Wei&callD
 ### Solution:
 In this case, we need to send calldatavalue, so the created contract returns something which is of 1 byte. so when the EXTCODESIZE returns 1 which in the next step equals to 1 from push. that will be stored as an offset for JUMPI.
 answer is "0x60016000f3"
+
+############
+# Puzzle 8 #
+############
+
+00      36        CALLDATASIZE
+01      6000      PUSH1 00
+03      80        DUP1
+04      37        CALLDATACOPY
+05      36        CALLDATASIZE
+06      6000      PUSH1 00
+08      6000      PUSH1 00
+0A      F0        CREATE
+0B      6000      PUSH1 00
+0D      80        DUP1
+0E      80        DUP1
+0F      80        DUP1
+10      80        DUP1
+11      94        SWAP5
+12      5A        GAS
+13      F1        CALL
+14      6000      PUSH1 00
+16      14        EQ
+17      601B      PUSH1 1B
+19      57        JUMPI
+1A      FD        REVERT
+1B      5B        JUMPDEST
+1C      00        STOP
+
+? Enter the calldata: 0x60fd60005360016000f3
+
+Puzzle solved!
+
+Run it in evm.codes: https://www.evm.codes/playground?callValue=0&unit=Wei&callData=0x60fd60005360016000f3&codeType=Bytecode&code=%2736600080373660006000F0600080808080945AF1600014601B57FD5B00%27_
+### Solution:
+In Order for this work, the line before JUMPI should  return 1, so 1b -1 will be 1a which is JUMPDEST.
+
+So in order to do that, the contract creation should be successful, but calling the contract should revert/error out.so it will return 0. so the next PUSH1 puts 0 in the stack and CALL already has reverted, so the stack already has 0. The equal 0=0 returns 1, the JUMPI conditional will use 1b - 1 = 1a which jumps the pointer to JUMPDEST.
+
+answer: 0x60fd60005360016000f3
