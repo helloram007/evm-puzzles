@@ -231,3 +231,37 @@ In Order for this work, the line before JUMPI should  return 1, so 1b -1 will be
 So in order to do that, the contract creation should be successful, but calling the contract should revert/error out.so it will return 0. so the next PUSH1 puts 0 in the stack and CALL already has reverted, so the stack already has 0. The equal 0=0 returns 1, the JUMPI conditional will use 1b - 1 = 1a which jumps the pointer to JUMPDEST.
 
 answer: 0x60fd60005360016000f3
+
+############
+# Puzzle 9 #
+############
+
+00      36        CALLDATASIZE  --> 0xFFFFFFFFFFFFFFFF (8)
+01      6003      PUSH1 03      --> This pushes 3 into the stack
+03      10        LT            --> 3<8 = true(returns 1 in the stack) 
+04      6009      PUSH1 09      --> pushes 9 into the stack
+06      57        JUMPI         --> The PUSH instructions are bigger than 
+                                    one byte, and so will increment the counter accordingly.
+07      FD        REVERT
+08      FD        REVERT
+09      5B        JUMPDEST      --> Now the pointer is moved to this JUMPDEST 
+                                    will continue the execution.
+0A      34        CALLVALUE     --> value is 1 as it i entered
+0B      36        CALLDATASIZE  --> 8
+0C      02        MUL           --> 8 * 1 --> now the stack is 8
+0D      6008      PUSH1 08      --> this pushes 8, so there are 2 values at n,n-1
+0F      14        EQ            --> this will be 8=8, true returns 1 and now 
+                                    stack only has 1
+10      6014      PUSH1 14      --> this will push , already has 1 in the stack.
+12      57        JUMPI         --> Since the earlieer instruction was push,  
+                                    it takes 2 top values and adds to 15
+13      FD        REVERT
+14      5B        JUMPDEST      --> goes to this line. and continues execution
+15      00        STOP
+
+? Enter the value to send: 1
+? Enter the calldata: 0xFFFFFFFFFFFFFFFF
+
+Puzzle solved!
+
+Run it in evm.codes: https://www.evm.codes/playground?callValue=1&unit=Wei&callData=0xFFFFFFFFFFFFFFFF&codeType=Bytecode&code=%2736600310600957FDFD5B343602600814601457FD5B00%27_
